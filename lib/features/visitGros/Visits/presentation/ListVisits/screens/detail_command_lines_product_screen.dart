@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/functions/format_number.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/domain/models/detail_command_lines.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_bloc.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_state.dart';
@@ -82,8 +83,8 @@ class DetailCommandLinesProductScreen extends StatelessWidget {
                               rowWidget("Quantité", "${line.quantity}"),
                               rowWidget("Bonus", "${line.bonus}%"),
                               rowWidget("Total Quantité", "${line.totalQuantity}"),
-                              rowWidget("Prix", "${line.price} DA"),
-                              rowWidget("Total Ligne", "${line.totalLine} DA"),
+                              rowWidget("Prix", "${formatNumber(line.price.toString())} DA"),
+                              rowWidget("Total Ligne", "${formatNumber(line.totalLine.toString())} DA"),
                             ],
                           ),
                         );
@@ -101,7 +102,7 @@ class DetailCommandLinesProductScreen extends StatelessWidget {
                     border: Border(top: BorderSide(color: Colors.blue.shade200)),
                   ),
                   child: Text(
-                    "Total des lignes : ${lines.totalLines} DA",
+                    "Total des lignes : ${formatNumber(lines.totalLines.toString())} DA",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,

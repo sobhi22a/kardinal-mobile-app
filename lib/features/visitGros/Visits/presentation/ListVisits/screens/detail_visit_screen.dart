@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/functions/formatDate.dart';
+import 'package:e_commerce_app/core/functions/format_number.dart';
 import 'package:e_commerce_app/core/router/app_router.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_bloc.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_state.dart';
@@ -63,7 +64,6 @@ class DetailVisitScreen extends StatelessWidget {
                                 onPressed: () {
                                   final id = commands[index]['id'];
                                   final clientName = item['client']['fullName'] ?? '';
-                                  print("clientName: $clientName");
                                   final encodedName = Uri.encodeComponent(clientName);
 
                                   GoRouter.of(context).push("${AppRouter.detailCommandLine}/$id/$encodedName");
@@ -84,9 +84,9 @@ class DetailVisitScreen extends StatelessWidget {
                               )
                             : Column(
                                 children: [
-                                  rowWidget("Total ligne", "${item['totalLine']} DA"),
+                                  rowWidget("Total ligne", "${formatNumber(item['totalLine'].toString())} DA"),
                                   rowWidget("Remise", "${item['discount']}%"),
-                                  rowWidget("Total Général", "${item['grandTotal']} DA"),
+                                  rowWidget("Total Général", "${formatNumber(item['grandTotal'].toString())} DA"),
                                 ],
                               ),
 

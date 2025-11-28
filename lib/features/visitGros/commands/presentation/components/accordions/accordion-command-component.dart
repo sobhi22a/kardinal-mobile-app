@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/functions/format_number.dart';
 import 'package:e_commerce_app/core/shared/colors.dart';
 import 'package:e_commerce_app/core/functions/formatDate.dart';
 import 'package:e_commerce_app/core/widgets/default_button.dart';
@@ -79,17 +80,16 @@ class AccordionCommandComponent extends StatelessWidget {
                           const SizedBox(height: 12),
                           buildSummaryRow('Date', formatDate(section.dateOrdered)),
                           buildSummaryRow('Status', '${section.status}'),
-                          buildSummaryRow('montant', '${section.totalLine.toStringAsFixed(2)} DZD'),
+                          buildSummaryRow('montant', '${formatNumber(section.totalLine.toString())} DZD'),
                           buildSummaryRow('Remise', '${section.discount}%'),
                           const Divider(),
-                          buildSummaryRow('Total avec remise', '${section.grandTotal.toStringAsFixed(2)} DZD', isTotal: true),
+                          buildSummaryRow('Total avec remise', '${formatNumber(section.grandTotal.toString())} DZD', isTotal: true),
                           const Divider(),
-                          section.status == 1
-                              ? defaultButton(
+                          section.status == 1 ?
+                          defaultButton (
                               function: () => GoRouter.of(context).push('/commandLine/${section.id}'),
                               text: 'Ajouter une ligne de produit'
-                          )
-                              : const SizedBox(),
+                          ) : const SizedBox(),
                         ],
                       ),
                     ),

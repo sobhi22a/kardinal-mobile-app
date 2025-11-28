@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/functions/format_number.dart';
 import 'package:e_commerce_app/database/models/command_line_model.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/bloc/commands_bloc.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/bloc/commands_state.dart';
@@ -37,37 +38,22 @@ class CommandDetailScreen extends StatelessWidget {
           CommandsBloc cubit = CommandsBloc.get(context);
 
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('Détail de la commande'),
-            ),
+            appBar: AppBar(title: const Text('Détail de la commande')),
             body: Column(
               children: [
-                // scrollable content
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: AccordionCommandDetailComponent(
-                      accordionSections: commandLines,
-                    ),
-                  ),
-                ),
-
+                Expanded(child: SingleChildScrollView(child: AccordionCommandDetailComponent(accordionSections: commandLines))),
                 // fixed footer
                 Container(
                   height: 80, // fixed height
                   padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    border: const Border(
-                      top: BorderSide(color: Colors.grey, width: 0.5),
-                    ),
-                  ),
+                  decoration: BoxDecoration(color: Colors.grey.shade200, border: const Border(top: BorderSide(color: Colors.grey, width: 0.5))),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
                           Text(
-                            'Total: ${commandTotalLine.toStringAsFixed(2)}',
+                            'Total: ${formatNumber(commandTotalLine.toStringAsFixed(2))}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
@@ -81,7 +67,7 @@ class CommandDetailScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Total général: ${grandTotal.toStringAsFixed(2)}',
+                        'Total général: ${formatNumber(grandTotal.toStringAsFixed(2))}',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),

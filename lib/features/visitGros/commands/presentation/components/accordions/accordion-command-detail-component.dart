@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/functions/format_number.dart';
 import 'package:e_commerce_app/core/shared/colors.dart';
 import 'package:e_commerce_app/database/models/command_line_model.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/components/accordions/buildSummaryRow.dart';
@@ -54,13 +55,13 @@ class AccordionCommandDetailComponent extends StatelessWidget {
                         children: [
                           const Text('Détails du produit', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.green)),
                           const SizedBox(height: 12),
-                          buildSummaryRow('Prix', '${section.price}'),
+                          buildSummaryRow('Prix', '${formatNumber(section.price.toString())}'),
                           buildSummaryRow('Quantité', '${section.quantity}'),
                           buildSummaryRow('bonus', '${section.bonus}%'),
-                          buildSummaryRow('Quantité total', '${section.totalQuantity}'),
+                          buildSummaryRow('Quantité total', '${formatNumber(section.totalQuantity.toString())}'),
                           buildSummaryRow('Description', section.description),
                           const Divider(),
-                          buildSummaryRow('Total', '${section.totalLine.toStringAsFixed(2)} DZD', isTotal: true),
+                          buildSummaryRow('Total', '${formatNumber(section.totalLine.toStringAsFixed(2))} DZD', isTotal: true),
                           const Divider(),
                         ],
                       ),
