@@ -1,0 +1,1 @@
+String currentLanguage = 'fr';
