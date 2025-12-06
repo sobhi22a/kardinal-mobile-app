@@ -54,6 +54,11 @@ class HomeScreen extends StatelessWidget {
                    onTap: () =>context.push(AppRouter.listVisits),
                    child: CardHomeIcon(icon: Icons.account_tree, title: t.text('visits'))
                ),
+
+               GestureDetector(
+                   onTap: () =>context.push(AppRouter.stock),
+                   child: CardHomeIcon(icon: Icons.add_chart_outlined, title: t.text('Stock'))
+               ),
              ],
            ),
          )),

@@ -29,6 +29,11 @@ class AppLocalizations {
       'responsible': 'Responsible',
       'visit_date': 'Visit Date',
       'status': 'Status',
+      'create_new_stock': 'Create Stock',
+      'stock_line': 'Stock line',
+      'command_line': 'Command Lines',
+      'add_line_product': 'Add line product',
+      'add_stock_line': 'Add Stock Line',
     },
     'fr': {
       'welcome_back': 'Bienvenue',
@@ -54,6 +59,11 @@ class AppLocalizations {
       'responsible': 'Responsable',
       'visit_date': 'Date de visite',
       'status': 'Statut',
+      'create_new_stock': 'Créer Stock',
+      'stock_line': 'Lignes de Stock',
+      'command_line': 'Lignes de commande',
+      'add_line_product': 'Ajouter une ligne de produit',
+      'add_stock_line': 'Ajouter une ligne de stock',
     },
   };
 

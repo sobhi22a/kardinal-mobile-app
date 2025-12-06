@@ -86,9 +86,7 @@ class _CommandScreenState extends State<CommandScreen> {
                       const SizedBox(height: 10),
                       Expanded(
                         child: SingleChildScrollView(
-                          child: AccordionCommandComponent(
-                            accordionSections: listCommands,
-                          ),
+                          child: AccordionCommandComponent(accordionSections: listCommands),
                         ),
                       ),
                     ],

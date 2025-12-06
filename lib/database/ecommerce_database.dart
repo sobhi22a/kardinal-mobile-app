@@ -9,7 +9,7 @@ class ECommerceDatabase {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('ecommerce1.db');
+    _database = await _initDB('ecommerce24.db');
     return _database!;
   }
 
@@ -63,6 +63,38 @@ class ECommerceDatabase {
         createdBy TEXT
       )
     ''');
+
+    await db.execute('''
+        CREATE TABLE stock (
+        id TEXT PRIMARY KEY,
+        documentno TEXT,
+        dateOrdered TEXT,
+        clientId TEXT,
+        clientName TEXT,
+        visitPlanId TEXT,
+        description TEXT,
+        grandTotal REAL,
+        syncRow TEXT DEFAULT 'N',
+        createdBy TEXT
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE stock_lines (
+      id TEXT PRIMARY KEY,
+      stockId TEXT,
+      productId TEXT,
+      productName TEXT,
+      quantity INTEGER,
+      description TEXT,
+      price REAL,
+      totalLine REAL,
+      syncRow TEXT DEFAULT 'N',
+      createdBy TEXT,
+      createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+       )
+    ''');
+
 
   }
 

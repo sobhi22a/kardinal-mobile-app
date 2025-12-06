@@ -1,8 +1,10 @@
 import 'package:e_commerce_app/core/functions/format_number.dart';
+import 'package:e_commerce_app/core/functions/static_values.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/domain/models/detail_command_lines.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_bloc.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_state.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/screens/detail_visit_screen.dart';
+import 'package:e_commerce_app/localization/AppLocalizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,10 +30,11 @@ class DetailCommandLinesProductScreen extends StatelessWidget {
         },
         builder: (context, state) {
           VisitsBloc cubit = VisitsBloc.get(context);
+          final t = AppLocalizations(currentLanguage);
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Lignes de commande'),
+              title: Text(t.text('command_line')),
               centerTitle: true,
             ),
 

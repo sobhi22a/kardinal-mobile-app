@@ -28,6 +28,8 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
   final TextEditingController _bonusController = TextEditingController(text: '0');
   final TextEditingController _totalQuantityController = TextEditingController(text: '0');
   final TextEditingController _totalLineController = TextEditingController(text: '0.00');
+  final TextEditingController _productController = TextEditingController();
+
 
   // Variables for calculation
   double _unitPrice = 0.0;
@@ -37,12 +39,14 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
   void initState() {
     super.initState();
     // Add listeners to recalculate when quantity or bonus changes
+
     _quantityController.addListener(_calculateTotals);
     _bonusController.addListener(_calculateTotals);
   }
 
   @override
   void dispose() {
+    _productController.dispose();
     _quantityController.dispose();
     _bonusController.dispose();
     _totalQuantityController.dispose();
@@ -92,8 +96,10 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
   }
 
   void _resetForm() {
+
     setState(() {
       selectedProduct = null;
+      _productController.clear();
       _unitPrice = 0.0;
       _productBonus = 0.0;
     });
@@ -144,6 +150,7 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
                     children: [
                       // Product Selection
                       EasyAutocomplete(
+                        controller: _productController,
                         suggestions: products.map((product) => product['label'].toString()).toList(),
                         onChanged: (value) => print('Selected: $value'),
                         onSubmitted: (value) {

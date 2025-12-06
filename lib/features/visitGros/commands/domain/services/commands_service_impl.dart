@@ -6,14 +6,9 @@ import 'package:e_commerce_app/features/visitGros/commands/data/models/create_co
 
 String command = '/Command';
 
-Future<CreateCommandResponseModel> createCommandService(
-  CreateCommandModel createCommandModel,
-) async {
+Future<CreateCommandResponseModel> createCommandService(CreateCommandModel createCommandModel) async {
   try {
-    final response = await DioClientNetwork.post(
-      '$command/create-command',
-      data: createCommandModel.toJson(),
-    );
+    final response = await DioClientNetwork.post('$command/create-command', data: createCommandModel.toJson());
 
     final createCommandResponseModel = CreateCommandResponseModel(
       CommandId: response.data['commandId'] ?? '',

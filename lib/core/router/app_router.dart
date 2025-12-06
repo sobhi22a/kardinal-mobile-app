@@ -12,6 +12,9 @@ import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits
 import 'package:e_commerce_app/features/visitGros/commands/presentation/screens/command_detail_screen.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/screens/command_line_screen.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/screens/command_screen.dart';
+import 'package:e_commerce_app/features/visitGros/stocks/presentation/bloc/stock_bloc.dart';
+import 'package:e_commerce_app/features/visitGros/stocks/presentation/screens/stock_line_screen.dart';
+import 'package:e_commerce_app/features/visitGros/stocks/presentation/screens/stock_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +36,9 @@ class AppRouter {
   static const String detailCommandLine = '/detailCommandLine';
   static const String detailClientVisit = '/detailClientVisit';
 
+  // routes stock
+  static const String stock = '/stock';
+  static const String stockLine = '/stockLine';
 
 
   static GoRouter createRouter(AuthBloc authBloc) {
@@ -141,6 +147,29 @@ class AppRouter {
           builder: (context, state) {
             final regionId = state.pathParameters['id'];
             return ListClientsByVisitid(regionId: regionId!);
+          },
+        ),
+
+        // stock
+
+        GoRoute(
+          path: '/stock',
+          builder: (context, state) {
+            return BlocProvider(
+              create: (_) => StockBloc()
+                ..getVisitByDate()
+                ..getListOfStocks(),
+              child: StockScreen(),
+            );
+          },
+        ),
+
+        GoRoute(
+          path: '/stockLine/:id',
+          name: AppRouter.stockLine,
+          builder: (context, state) {
+            final stockId = state.pathParameters['id'];
+            return StockLineScreen(stockId: stockId!);
           },
         ),
       ],
