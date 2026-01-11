@@ -9,6 +9,7 @@ import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/screens/detail_visit_screen.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/screens/list-visit-screen.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/screens/list_clients_by_visitId.dart';
+import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/screens/list_stock_by_visitId.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/screens/command_detail_screen.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/screens/command_line_screen.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/screens/command_screen.dart';
@@ -35,6 +36,7 @@ class AppRouter {
   static const String detailVisits = '/detailVisits';
   static const String detailCommandLine = '/detailCommandLine';
   static const String detailClientVisit = '/detailClientVisit';
+  static const String detailStockVisit = '/detailStockVisit';
 
   // routes stock
   static const String stock = '/stock';
@@ -145,8 +147,17 @@ class AppRouter {
           path: '/detailClientVisit/:id',
           name: AppRouter.detailClientVisit,
           builder: (context, state) {
-            final regionId = state.pathParameters['id'];
-            return ListClientsByVisitid(regionId: regionId!);
+            final visitPlanId = state.pathParameters['id'];
+            return ListClientsByVisitid(visitPlanId: visitPlanId!);
+          },
+        ),
+
+        GoRoute(
+          path: '/detailStockVisit/:id',
+          name: AppRouter.detailStockVisit,
+          builder: (context, state) {
+            final visitId = state.pathParameters['id'];
+            return ListStockByVisitid(visitId: visitId!);
           },
         ),
 

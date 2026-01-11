@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/shared/Loading/easy_loading.dart';
+import 'package:e_commerce_app/core/shared/Loading/loading_message.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -20,6 +22,7 @@ class LocationData {
 
 Future<LocationData?> getCurrentLocationAndAddress() async {
   try {
+    easyLoading('Récupération de la localisation...', EasyLoadingEnum.loading);
     // Check if location services are enabled
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -58,12 +61,14 @@ Future<LocationData?> getCurrentLocationAndAddress() async {
       address = '${place.street}, ${place.locality}, ${place.country}' ;
     }
 
+    easyLoading(NONE, EasyLoadingEnum.dismiss);
     return LocationData(
       latitude: position.latitude,
       longitude: position.longitude,
       address: address,
     );
   } catch (e) {
+    easyLoading('Error getting location', EasyLoadingEnum.error);
     print('Error getting location: $e');
     return null;
   }

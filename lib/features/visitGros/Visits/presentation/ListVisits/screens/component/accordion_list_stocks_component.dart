@@ -1,13 +1,12 @@
 import 'package:e_commerce_app/core/shared/colors.dart';
 import 'package:e_commerce_app/core/functions/formatDate.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/components/accordions/buildSummaryRow.dart';
-import 'package:e_commerce_app/features/visitGros/commons/models/Tiers.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
-class AccordionListTiersComponent extends StatelessWidget {
-  final List<Tier> accordionSections;
-  const AccordionListTiersComponent({ super.key, required this.accordionSections });
+class AccordionListStocksComponent extends StatelessWidget {
+  final List<dynamic> accordionSections;
+  const AccordionListStocksComponent({ super.key, required this.accordionSections });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class AccordionListTiersComponent extends StatelessWidget {
                   iconColor: Colors.black,
                   collapsedIconColor: Colors.black,
                   title: Text(
-                      section.fullName,
+                      section['client']['fullName'],
                       style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
                   ),
                   children: [
@@ -48,35 +47,15 @@ class AccordionListTiersComponent extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              const Text('Détail Client', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.green)),
+                              const Text('Détail Stock', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.green)),
                               const Spacer(),
-                              Material(
-                                color: Colors.white,
-                                child: Center(
-                                  child: Ink(
-                                    decoration: ShapeDecoration(color: ColorFile.appColor, shape: CircleBorder(),
-                                        shadows: [BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 6,
-                                          offset: Offset(0, 2),)]
-                                    ),
-                                    child: Link(uri: Uri.parse(section.urlGps),
-                                        builder: (context, openLink) => IconButton(onPressed: openLink, color: Colors.white, icon: const Icon(Icons.location_on))),
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                           const SizedBox(height: 12),
-                          buildSummaryRow('Premier Commande', section.firstSale == null ? '--' : formatDate(section.firstSale.toString())),
-                          buildSummaryRow('Groupe de Client', '${section.groupTier}'),
-                          buildSummaryRow('Status Credit Client', '${section.statusCreditTier}'),
-                          buildSummaryRow('RC', section.rc ?? '--'),
-                          buildSummaryRow('AI', section.ai ?? '--'),
-                          buildSummaryRow('NIF', section.nif ?? '--'),
-                          buildSummaryRow('NIS', section.nis ?? '--'),
-                          buildSummaryRow('Adresse', section.location ?? '--'),
-                          buildSummaryRow('Adresse GPS', section.locationGps ?? '--'),
+                          buildSummaryRow('N°Document', section['documentno']),
+                          buildSummaryRow('Date ', formatDate(section['dateOrdered'])),
+                          const Divider(),
+                          buildSummaryRow('Description', '${section['Description']}'),
                         ],
                       ),
                     ),

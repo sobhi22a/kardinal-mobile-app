@@ -9,7 +9,7 @@ class ECommerceDatabase {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('ecommerce24.db');
+    _database = await _initDB('ecommerce29.db');
     return _database!;
   }
 
@@ -54,7 +54,7 @@ class ECommerceDatabase {
         productId TEXT,
         productName Text,
         quantity INTEGER,
-        bonus INTEGER,
+        ug REAL,
         totalQuantity INTEGER,
         price REAL,
         description TEXT,

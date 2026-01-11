@@ -12,7 +12,7 @@ class DioClientNetwork {
 
   DioClientNetwork._internal() {
     _dio = Dio(BaseOptions(
-      baseUrl: 'http://192.168.75.16:7095/api',
+      baseUrl: 'http://192.168.42.16:7095/api',
       connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 30),
     ));

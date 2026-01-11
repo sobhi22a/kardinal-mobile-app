@@ -21,6 +21,7 @@ class AppLocalizations {
       'please_enter_password': 'Please enter your password',
       'create_new_command': 'Create Command',
       'delete_all_commands': 'Delete all orders',
+      'delete_all_stocks': 'Delete all stocks',
       'confirm_message': 'Are you sure you want to delete all orders? This action cannot be undone.',
       'confirm_deletion': 'Confirm Deletion',
       'cancel': 'Cancel',
@@ -34,6 +35,7 @@ class AppLocalizations {
       'command_line': 'Command Lines',
       'add_line_product': 'Add line product',
       'add_stock_line': 'Add Stock Line',
+      'create_command': 'create command'
     },
     'fr': {
       'welcome_back': 'Bienvenue',
@@ -51,6 +53,7 @@ class AppLocalizations {
       'please_enter_password': 'Veuillez saisir votre mot de passe',
       'create_new_command': 'Créer commande',
       'delete_all_commands': 'Supprimer toutes les orders',
+      'delete_all_stocks': 'Supprimer tous les stocks',
       'confirm_message': 'Êtes-vous sûr de vouloir supprimer toutes les commandes ? Cette action est irréversible.',
       'confirm_deletion': 'Confirmer la suppression',
       'cancel': 'Annuler',
@@ -64,6 +67,7 @@ class AppLocalizations {
       'command_line': 'Lignes de commande',
       'add_line_product': 'Ajouter une ligne de produit',
       'add_stock_line': 'Ajouter une ligne de stock',
+      'create_command': 'créer une commande'
     },
   };
 

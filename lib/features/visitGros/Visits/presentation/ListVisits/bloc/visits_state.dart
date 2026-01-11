@@ -25,3 +25,8 @@ class ListClientsByRegionIdAndGroupState extends VisitsState {
   List<Tier> list;
   ListClientsByRegionIdAndGroupState(this.list);
 }
+
+class ListStockByVisitIdState extends VisitsState {
+  List<dynamic> list;
+  ListStockByVisitIdState(this.list);
+}

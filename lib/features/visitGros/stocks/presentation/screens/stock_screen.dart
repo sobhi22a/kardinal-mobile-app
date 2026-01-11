@@ -3,6 +3,7 @@ import 'package:e_commerce_app/database/models/stock_model.dart';
 import 'package:e_commerce_app/features/visitGros/stocks/presentation/bloc/stock_bloc.dart';
 import 'package:e_commerce_app/features/visitGros/stocks/presentation/bloc/stock_state.dart';
 import 'package:e_commerce_app/features/visitGros/stocks/presentation/component/accordion_stock_component.dart';
+import 'package:e_commerce_app/features/visitGros/stocks/presentation/component/stock_footer_component.dart';
 import 'package:e_commerce_app/features/visitGros/stocks/presentation/component/stock_form_dialog.dart';
 import 'package:e_commerce_app/localization/AppLocalizations.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,7 @@ class _StockScreenState extends State<StockScreen> {
             ),
           ),
         ),
+        buildDeleteAllFooter(context, cubit, t)
       ],
     );
   }

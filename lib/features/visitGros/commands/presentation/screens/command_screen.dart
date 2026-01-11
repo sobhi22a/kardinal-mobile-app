@@ -385,13 +385,11 @@ class _CommandFormDialogState extends State<CommandFormDialog> {
                           ],
                           _buildDescriptionField(t),
                           const SizedBox(height: 20),
-                          _buildSimpleModeSwitch(t),
-                          const SizedBox(height: 20),
+                          //  _buildSimpleModeSwitch(t),
+                          // const SizedBox(height: 20),
                           defaultButton(
-                            function: isCreating ? null : _submitForm,
-                            text: isCreating
-                                ? t.text('creating')
-                                : t.text('create_command'),
+                            function: _submitForm,
+                            text: t.text('create_command'),
                           ),
                           if (isCreating)
                             const Padding(
@@ -449,28 +447,45 @@ class _CommandFormDialogState extends State<CommandFormDialog> {
   }
 
   Widget _buildClientAutocomplete(AppLocalizations t) {
+    // ✅ FIX 2: force correct typing
+    final List<Map<String, String>> clients =
+    List<Map<String, String>>.from(widget.clients);
+    final TextEditingController _clientController = TextEditingController();
     return EasyAutocomplete(
-      suggestions: widget.clients
-          .map((client) => client['label'].toString())
-          .toList(),
-      onChanged: (value) {},
+      controller: _clientController,
+
+      suggestions: clients
+          .map((client) => client['label'])
+          .whereType<String>() // removes nulls
+          .toList(), // now List<String>
+
+      onChanged: (_) {
+        selectedClient = null;
+      },
+
       onSubmitted: (value) {
-        final selectedUser = widget.clients.firstWhere(
-              (client) => client['label'] == value,
-          orElse: () => {},
-        );
-        if (selectedUser.isNotEmpty) {
+        try {
+          final client = clients.firstWhere(
+                (c) => c['label'] == value,
+          );
+
           setState(() {
-            selectedClient = selectedUser;
+            selectedClient = client;
+          });
+        } catch (_) {
+          setState(() {
+            selectedClient = null;
           });
         }
       },
+
       validator: (value) {
         if (value == null || value.isEmpty || selectedClient == null) {
           return t.text('please_select_client');
         }
         return null;
       },
+
       decoration: InputDecoration(
         labelText: t.text('clients'),
         border: const OutlineInputBorder(),
@@ -478,6 +493,8 @@ class _CommandFormDialogState extends State<CommandFormDialog> {
       ),
     );
   }
+
+
 
   Widget _buildGrossisteSelector(AppLocalizations t) {
     return Container(

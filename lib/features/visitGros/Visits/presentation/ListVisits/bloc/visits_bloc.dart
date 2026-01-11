@@ -2,6 +2,7 @@ import 'package:e_commerce_app/core/functions/current_user.dart';
 import 'package:e_commerce_app/core/functions/formatDate.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/domain/services/visit_service_impl.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_state.dart';
+import 'package:e_commerce_app/features/visitGros/commands/domain/services/commands_service_impl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class VisitsBloc extends Cubit<VisitsState> {
@@ -26,6 +27,7 @@ class VisitsBloc extends Cubit<VisitsState> {
       return;
     }
     var response = await getAllCommandByVisitIdService(userId: user?.id, visitId: visitId);
+    print(response);
     emit(ListCommandByVisitState(response));
   }
 
@@ -34,8 +36,13 @@ class VisitsBloc extends Cubit<VisitsState> {
     emit(ListCommandLineByCommandIdState(response));
   }
 
-  void GetAllClientsByRegionIdAndGroup(regionId) async {
-    var response = await getAllClientByRegionIdAndGroupService(regionId: regionId, groupTier: 1);
+  void GetAllClientsByRegionIdAndGroup(visitPlanId) async {
+    var response = await getClientsByVisitPlanService(visitPlanId: visitPlanId);
     emit(ListClientsByRegionIdAndGroupState(response));
+  }
+
+  void GetAllStockbyVisitId(visitId) async {
+    var response = await getAllStockByVisitIdService(visitId: visitId);
+    emit(ListStockByVisitIdState(response));
   }
 }

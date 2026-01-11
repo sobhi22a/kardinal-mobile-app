@@ -51,7 +51,7 @@ class AccordionCommandLineComponent extends StatelessWidget {
                     const SizedBox(height: 12),
                     buildSummaryRow('Prix Unitaire', '${section.price.toStringAsFixed(2)} DZD'),
                     buildSummaryRow('Quantité', '${section.quantity} unités'),
-                    buildSummaryRow('Bonus', '${section.bonus}%'),
+                    buildSummaryRow('ug', '${section.ug}%'),
                     buildSummaryRow('Quantité Total', '${section.totalQuantity} unités'),
                     const Divider(),
                     buildSummaryRow('Total Ligne', '${section.totalLine.toStringAsFixed(2)} DZD', isTotal: true),

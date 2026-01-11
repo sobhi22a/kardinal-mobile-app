@@ -38,10 +38,10 @@ class AccordionCommandComponent extends StatelessWidget {
                   collapsedIconColor: Colors.black,
                   title: Row(
                     children: [
-                      Text(
+                      Expanded(child: Text(
                           section.clientName,
                           style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
-                      ),
+                      )),
                       const Spacer(),
                       section.type == 0 ? Icon(Icons.visibility_rounded) : SizedBox()
                     ],

@@ -4,6 +4,7 @@ import 'package:e_commerce_app/core/functions/getTodayDate.dart';
 import 'package:e_commerce_app/database/models/Stock_line_model.dart';
 import 'package:e_commerce_app/database/models/stock_model.dart';
 import 'package:e_commerce_app/features/visitGros/commands/domain/services/commands_service_impl.dart';
+import 'package:e_commerce_app/features/visitGros/stocks/domain/services/stock_service.dart';
 import 'package:e_commerce_app/features/visitGros/stocks/presentation/bloc/stock_state.dart';
 import 'package:e_commerce_app/repositories/stocks/stock_lines_repository.dart';
 import 'package:e_commerce_app/repositories/stocks/stock_repository.dart';
@@ -120,5 +121,26 @@ class StockBloc extends Cubit<StockState> {
 
     final updatedStock = stock.copyWith(grandTotal: total);
     await _stockRepository.updateStock(updatedStock);
+  }
+
+
+  Future<void> deleteAllStocks() async {
+    var stocks = await _stockRepository.getAllStocksSync();
+    for (var stock in stocks) {
+      var response = await getOneStockByIdService(stockId: stock.id);
+      if(response.isNotEmpty) {
+        await _stockRepository.deleteStock(stock.id);
+      }
+    }
+  }
+
+  Future<void> deleteAllStockLines() async {
+    var stockLines = await _stockLineRepository.getAllStockLinesSync();
+    for (var stockLine in stockLines) {
+      var response = await getOneStockLineByIdService(stockLineId: stockLine.id);
+      if(response.isNotEmpty) {
+        await _stockLineRepository.deleteStockLine(stockLine.id);
+      }
+    }
   }
 }

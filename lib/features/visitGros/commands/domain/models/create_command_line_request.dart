@@ -5,7 +5,7 @@ class CreateCommandLineRequest extends Equatable {
   final String commandId;
   final String productId;
   final int quantity;
-  final int bonus;
+  final double ug;
   final int totalQuantity;
   final double price;
   final String description;
@@ -18,7 +18,7 @@ class CreateCommandLineRequest extends Equatable {
     required this.commandId,
     required this.productId,
     required this.quantity,
-    required this.bonus,
+    required this.ug,
     required this.totalQuantity,
     required this.price,
     required this.description,
@@ -34,7 +34,7 @@ class CreateCommandLineRequest extends Equatable {
       'commandId': commandId,
       'productId': productId,
       'quantity': quantity,
-      'bonus': bonus,
+      'ug': ug,
       'totalQuantity': totalQuantity,
       'price': price,
       'description': description,
@@ -51,7 +51,7 @@ class CreateCommandLineRequest extends Equatable {
       commandId: json['commandId'] as String,
       productId: json['productId'] as String,
       quantity: json['quantity'] as int,
-      bonus: json['bonus'] as int,
+      ug: json['ug'] as double,
       totalQuantity: json['totalQuantity'] as int,
       price: json['price'] as double,
       description: json['description'] as String,

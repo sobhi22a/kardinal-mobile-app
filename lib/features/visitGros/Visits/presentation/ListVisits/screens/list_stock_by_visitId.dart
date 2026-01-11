@@ -1,32 +1,36 @@
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_bloc.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/bloc/visits_state.dart';
+import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/screens/component/accordion_list_stocks_component.dart';
 import 'package:e_commerce_app/features/visitGros/Visits/presentation/ListVisits/screens/component/accordion_list_tiers_component.dart';
 import 'package:e_commerce_app/features/visitGros/commons/models/Tiers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ListClientsByVisitid extends StatelessWidget {
-  final String visitPlanId;
-  ListClientsByVisitid({super.key, required this.visitPlanId});
+class ListStockByVisitid extends StatelessWidget {
+  final String visitId;
+  ListStockByVisitid({super.key, required this.visitId});
 
-  List<Tier> tiers = [];
+  List<dynamic> stocks = [];
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => VisitsBloc()..GetAllClientsByRegionIdAndGroup(visitPlanId),
+      create: (BuildContext context) => VisitsBloc()..GetAllStockbyVisitId(visitId),
       child: BlocConsumer<VisitsBloc, VisitsState>(
         listener: (BuildContext context, VisitsState state) {
-          if (state is ListClientsByRegionIdAndGroupState) tiers = state.list;
+          if (state is ListStockByVisitIdState) {
+            stocks = state.list;
+            print(stocks);
+          }
         },
         builder: (context, state) {
           VisitsBloc cubit = VisitsBloc.get(context);
 
           return Scaffold(
-            appBar: AppBar(title: const Text('Clients de la region')),
+            appBar: AppBar(title: const Text('Stocks Clients')),
             body: Padding(
-                padding: EdgeInsetsGeometry.all(10),
-                child: SingleChildScrollView(child: AccordionListTiersComponent(accordionSections: tiers)),
+              padding: EdgeInsetsGeometry.all(10),
+              child: SingleChildScrollView(child: AccordionListStocksComponent(accordionSections: stocks)),
             ),
           );
         },

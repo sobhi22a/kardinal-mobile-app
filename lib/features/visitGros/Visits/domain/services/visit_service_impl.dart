@@ -54,8 +54,25 @@ Future<List<Tier>> getAllClientByRegionIdAndGroupService({ required regionId, re
 
     if (response.statusCode == 200) {
       final List<dynamic> dataList = response.data;
+      print('dataList $dataList');
       final tiers = dataList.map((json) => Tier.fromJson(json)).toList();
       return tiers;
+    } else {
+      throw Exception('Failed to get tiers: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Failed to get tiers: $e');
+  }
+}
+
+Future<List<dynamic>> getAllStockByVisitIdService({ required visitId }) async {
+  try {
+    final response = await DioClientNetwork.get('/Stock/get-stock-by-visitId', queryParameters: { "visitId": visitId });
+
+    if (response.statusCode == 200) {
+      final List<dynamic> dataList = response.data;
+      // final tiers = dataList.map((json) => Tier.fromJson(json)).toList();
+      return dataList;
     } else {
       throw Exception('Failed to get tiers: ${response.statusCode}');
     }

@@ -3,6 +3,7 @@ import 'package:e_commerce_app/features/visitGros/commands/data/models/create_co
 import 'package:e_commerce_app/features/visitGros/commands/data/models/create_command_line_response.dart';
 import 'package:e_commerce_app/features/visitGros/commands/data/models/create_command_model.dart';
 import 'package:e_commerce_app/features/visitGros/commands/data/models/create_command_response_model.dart';
+import 'package:e_commerce_app/features/visitGros/commons/models/Tiers.dart';
 
 String command = '/Command';
 
@@ -56,6 +57,24 @@ Future<dynamic> getTiersByRegionAndGroupService({
     throw Exception('Failed to get tiers: $e');
   }
 }
+
+
+Future<List<Tier>> getClientsByVisitPlanService({ required visitPlanId }) async {
+  try {
+    final response = await DioClientNetwork.get('$command/get-clients-by-visit-plan', queryParameters: { "visitPlanId": visitPlanId });
+
+    if (response.statusCode == 200) {
+      final List<dynamic> dataList = response.data;
+      final tiers = dataList.map((json) => Tier.fromJson(json)).toList();
+      return tiers;
+    } else {
+      throw Exception('Failed to get tiers: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Failed to get tiers: $e');
+  }
+}
+
 
 Future<dynamic> getTiersByGroupService({
   required group,

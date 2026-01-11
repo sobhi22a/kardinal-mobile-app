@@ -43,7 +43,7 @@ void syncCommandLines() async {
       commandId: commandLine.commandId,
       productId: commandLine.productId,
       quantity: commandLine.quantity.toInt(),
-      bonus: commandLine.bonus.toInt(),
+      ug: commandLine.ug,
       totalQuantity: commandLine.totalQuantity.toInt(),
       price: commandLine.price,
       description: commandLine.description,
@@ -53,7 +53,7 @@ void syncCommandLines() async {
     );
     var create = await createCommandLineService(createCommandLineModel);
     if(create.Success == true) {
-      var result = await commandLinesRepository.updateCommandLine(commandLine.copyWith(syncRow: 'Y'));
+      await commandLinesRepository.updateCommandLine(commandLine.copyWith(syncRow: 'Y'));
     }
   }
 

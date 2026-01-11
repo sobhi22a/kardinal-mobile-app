@@ -33,3 +33,33 @@ Future<CreateStockLineResponse> createStockLineService(CreateStockLineModel crea
     throw Exception('Failed to create command: $e');
   }
 }
+
+Future<Map> getOneStockByIdService({ required stockId }) async {
+  try {
+    final response = await DioClientNetwork.get('/Stock/get-stock-by-id',
+      queryParameters: { "stockId": stockId },
+    );
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Failed to get tiers: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Failed to get tiers: $e');
+  }
+}
+
+Future<Map> getOneStockLineByIdService({ required stockLineId }) async {
+  try {
+    final response = await DioClientNetwork.get('/Stock/get-stock-line-by-id', queryParameters: { "stockLineId": stockLineId });
+
+    if (response.statusCode == 200) {
+      return response.data;
+    } else {
+      throw Exception('Failed to get tiers: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Failed to get tiers: $e');
+  }
+}

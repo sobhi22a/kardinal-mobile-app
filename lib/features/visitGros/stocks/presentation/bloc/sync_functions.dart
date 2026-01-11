@@ -26,6 +26,7 @@ Future<void> syncStocks() async {
       await stockRepository.updateStock(stock.copyWith(syncRow: 'Y'));
     }
   }
+  await syncStockLine();
 }
 
 Future<void> syncStockLine() async {

@@ -2,6 +2,7 @@ import 'package:e_commerce_app/core/functions/calculate-total-properties.dart';
 import 'package:e_commerce_app/core/functions/convert_to_value_label.dart';
 import 'package:e_commerce_app/core/functions/current_user.dart';
 import 'package:e_commerce_app/core/functions/getTodayDate.dart';
+import 'package:e_commerce_app/core/geoLocation/location_data.dart';
 import 'package:e_commerce_app/core/router/app_router.dart';
 import 'package:e_commerce_app/core/shared/Loading/easy_loading.dart';
 import 'package:e_commerce_app/database/models/command_line_model.dart';
@@ -35,6 +36,12 @@ class CommandsBloc extends Cubit<CommandsState> {
 
     List<String> suppliers = grossistes.map((g) => g['value'].toString()).toList().cast<String>();
 
+    var location = await getCurrentLocationAndAddress();
+    if(location == null) {
+      easyLoading('Erreur localisation', EasyLoadingEnum.error);
+      return;
+    }
+
     final id = const Uuid().v4();
     final createCommandModel = Command(
       id: id,
@@ -48,8 +55,8 @@ class CommandsBloc extends Cubit<CommandsState> {
       discount: 0,
       grandTotal: 0,
       visitPlanId: visitPlan['id'],
-      latitude: 0.0,
-      longitude: 0.0,
+      latitude: location.latitude,
+      longitude: location.longitude,
       suppliers: suppliers,
       description: description,
       syncRow: 'N',
@@ -86,6 +93,8 @@ class CommandsBloc extends Cubit<CommandsState> {
       var response = await getOneCommandByCommandIdService(commandId: command.id);
       if(response.isNotEmpty) {
         await _commandRepository.deleteCommand(command.id);
+      } else {
+        await _commandRepository.updateCommand(command.copyWith(syncRow: 'N'));
       }
     }
   }
@@ -96,6 +105,8 @@ class CommandsBloc extends Cubit<CommandsState> {
       var response = await getOneCommandLineByCommandLineIdService(commandLineId: commandLine.id);
       if(response.isNotEmpty) {
         await _commandLineRepository.deleteCommandLine(commandLine.id);
+      } else {
+        await _commandLineRepository.updateCommandLine(commandLine.copyWith(syncRow: 'N'));
       }
     }
   }
@@ -129,21 +140,15 @@ class CommandsBloc extends Cubit<CommandsState> {
       return;
     }
 
-    var response = await getVisitByDateAndVisitorService(
-      visitorId: user?.id,
-      dayDate: getTodayDate(),
-    );
+    var response = await getVisitByDateAndVisitorService(visitorId: user?.id, dayDate: getTodayDate());
     emit(VisitPlanTodayState(response));
-    getClients(regionId: response['regionId']);
+    getClients(visitPlanId: response['id']);
   }
 
-  void getClients({regionId}) async {
-    var response = await getTiersByRegionAndGroupService(
-      group: 1,
-      regionId: regionId,
-    );
-    final convert = convertToValueLabel(response, labelKey: 'fullName', valueKey: 'id');
-    emit(ListCliensState(convert));
+  void getClients({ visitPlanId }) async {
+    final response = await getClientsByVisitPlanService(visitPlanId: visitPlanId);
+    final converted = response.map((tier) => {'label': tier.fullName, 'value': tier.id}).toList();
+    emit(ListCliensState(converted));
   }
 
   void getGrossiste() async {
@@ -156,7 +161,7 @@ class CommandsBloc extends Cubit<CommandsState> {
   // part of Commands Line
   void getListProducts() async {
     var response = await getListProductsService();
-    var convert = convertToValueLabel(response, labelKey: 'name', valueKey: 'id', extraKeys: ['price', 'bonus']);
+    var convert = convertToValueLabel(response, labelKey: 'name', valueKey: 'id', extraKeys: ['price', 'ug']);
     emit(ListProductsState(convert));
   }
 
@@ -174,7 +179,7 @@ class CommandsBloc extends Cubit<CommandsState> {
         productId: commandLineData['productId'],
         productName: commandLineData['productName'],
         quantity: commandLineData['quantity'].toInt(),
-        bonus: commandLineData['bonus'].toInt(),
+        ug: commandLineData['ug'],
         totalQuantity: commandLineData['totalQuantity'].toInt(),
         price: commandLineData['price'],
         description: commandLineData['description'],

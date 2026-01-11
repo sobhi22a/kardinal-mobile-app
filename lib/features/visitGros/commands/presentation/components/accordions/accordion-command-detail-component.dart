@@ -38,7 +38,7 @@ class AccordionCommandDetailComponent extends StatelessWidget {
                         children: [
                           Text('Quantité: ${section.quantity}', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                           const Spacer(),
-                          Text('Bonus: ${section.bonus}%', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold))
+                          Text('ug: ${section.ug}%', style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold))
                         ],
                       )
                     ],
@@ -57,7 +57,7 @@ class AccordionCommandDetailComponent extends StatelessWidget {
                           const SizedBox(height: 12),
                           buildSummaryRow('Prix', '${formatNumber(section.price.toString())}'),
                           buildSummaryRow('Quantité', '${section.quantity}'),
-                          buildSummaryRow('bonus', '${section.bonus}%'),
+                          buildSummaryRow('ug', '${section.ug}%'),
                           buildSummaryRow('Quantité total', '${formatNumber(section.totalQuantity.toString())}'),
                           buildSummaryRow('Description', section.description),
                           const Divider(),

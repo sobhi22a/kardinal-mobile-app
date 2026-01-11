@@ -6,7 +6,7 @@ class CommandLine {
   final String productId;
   final String productName;
   final int quantity;
-  final int bonus;
+  final double ug;
   final int totalQuantity;
   final double price;
   final String description;
@@ -20,7 +20,7 @@ class CommandLine {
     required this.productId,
     required this.productName,
     required this.quantity,
-    required this.bonus,
+    required this.ug,
     required this.totalQuantity,
     required this.price,
     required this.description,
@@ -37,7 +37,7 @@ class CommandLine {
       'productId': productId,
       'productName': productName,
       'quantity': quantity,
-      'bonus': bonus,
+      'ug': ug,
       'totalQuantity': totalQuantity,
       'price': price,
       'description': description,
@@ -53,7 +53,7 @@ class CommandLine {
     String? productId,
     String? productName,
     int? quantity,
-    int? bonus,
+    double? ug,
     int? totalQuantity,
     double? price,
     String? description,
@@ -67,7 +67,7 @@ class CommandLine {
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
       quantity: quantity ?? this.quantity,
-      bonus: bonus ?? this.bonus,
+      ug: ug ?? this.ug,
       totalQuantity: totalQuantity ?? this.totalQuantity,
       price: price ?? this.price,
       description: description ?? this.description,
@@ -86,7 +86,7 @@ class CommandLine {
       productId: map['productId'],
       productName: map['productName'],
       quantity: map['quantity'],
-      bonus: map['bonus'],
+      ug: map['ug'],
       totalQuantity: map['totalQuantity'],
       price: map['price'] is int ? (map['price'] as int).toDouble() : map['price'],
       description: map['description'] ?? '',

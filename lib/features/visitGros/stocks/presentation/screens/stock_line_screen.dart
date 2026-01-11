@@ -178,7 +178,6 @@ class _StockLineScreenState extends State<StockLineScreen> {
                       Expanded(flex: 3, child: defaultElevatedButton(
                           function: () async {
                             await syncStocks();
-                            await syncStockLine();
                           },
                           text: 'Valider stock', icon: Icons.check, background: ColorFile.completeColor
                       )),

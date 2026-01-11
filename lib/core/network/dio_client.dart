@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class DioClient {
-  static const String baseUrl = 'http://192.168.75.16:7095/api';
+  static const String baseUrl = 'http://192.168.42.16:7095/api';
   static const int connectTimeout = 30000;
   static const int receiveTimeout = 30000;
 

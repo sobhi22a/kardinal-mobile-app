@@ -118,16 +118,16 @@ class _ListVisitScreenState extends State<ListVisitScreen> {
                               Row(
                                 children: [
                                   Expanded(
-                                      child: defaultElevatedButton(
-                                          function: () => GoRouter.of(context)
-                                              .push('${AppRouter.detailVisits}/${visit.id}'),
-                                          text: 'Commands')),
+                                    child: defaultElevatedButton(function: () => GoRouter.of(context).push('${AppRouter.detailVisits}/${visit.id}'),
+                                        text: '', icon: Icons.add_shopping_cart, fontSize: 20, background: ColorFile.appColor),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(child: defaultElevatedButton(function: () => GoRouter.of(context).push('${AppRouter.detailClientVisit}/${visit.id}'),
+                                          text: "", icon: Icons.account_box_outlined, fontSize: 20, background: ColorFile.appColor)),
                                   const SizedBox(width: 10),
                                   Expanded(
-                                      child: defaultElevatedButton(
-                                          function: () => GoRouter.of(context)
-                                              .push('${AppRouter.detailClientVisit}/${visit.regionId}'),
-                                          text: 'Clients')),
+                                      child: defaultElevatedButton(function: () => GoRouter.of(context).push('${AppRouter.detailStockVisit}/${visit.id}'),
+                                          text: '', icon: Icons.add_chart_outlined, fontSize: 20, background: ColorFile.appColor)),
                                 ],
                               )
                             ],

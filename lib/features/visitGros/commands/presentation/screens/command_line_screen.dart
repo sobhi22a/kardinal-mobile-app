@@ -1,9 +1,11 @@
+import 'package:e_commerce_app/core/functions/static_values.dart';
 import 'package:e_commerce_app/core/shared/colors.dart';
 import 'package:e_commerce_app/core/widgets/default_button.dart';
 import 'package:e_commerce_app/database/models/command_line_model.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/bloc/commands_bloc.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/bloc/commands_state.dart';
 import 'package:e_commerce_app/features/visitGros/commands/presentation/components/accordions/accordion-command-line-component.dart';
+import 'package:e_commerce_app/localization/AppLocalizations.dart';
 import 'package:easy_autocomplete/easy_autocomplete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +27,7 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
 
   // Form controllers
   final TextEditingController _quantityController = TextEditingController();
-  final TextEditingController _bonusController = TextEditingController(text: '0');
+  final TextEditingController _ugController = TextEditingController(text: '0');
   final TextEditingController _totalQuantityController = TextEditingController(text: '0');
   final TextEditingController _totalLineController = TextEditingController(text: '0.00');
   final TextEditingController _productController = TextEditingController();
@@ -33,22 +35,22 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
 
   // Variables for calculation
   double _unitPrice = 0.0;
-  double _productBonus = 0.0;
+  double _productug = 0.0;
 
   @override
   void initState() {
     super.initState();
-    // Add listeners to recalculate when quantity or bonus changes
+    // Add listeners to recalculate when quantity or ug changes
 
     _quantityController.addListener(_calculateTotals);
-    _bonusController.addListener(_calculateTotals);
+    _ugController.addListener(_calculateTotals);
   }
 
   @override
   void dispose() {
     _productController.dispose();
     _quantityController.dispose();
-    _bonusController.dispose();
+    _ugController.dispose();
     _totalQuantityController.dispose();
     _totalLineController.dispose();
     super.dispose();
@@ -58,10 +60,10 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
     if (selectedProduct == null) return;
     try {
       final quantity = double.tryParse(_quantityController.text) ?? 0.0;
-      final bonus = double.tryParse(_bonusController.text) ?? 0.0;
+      final ug = double.tryParse(_ugController.text) ?? 0.0;
 
-      // Calculate total quantity = quantity + bonus
-      final totalQuantity = quantity * (bonus / 100 + 1);
+      // Calculate total quantity = quantity + ug
+      final totalQuantity = quantity * (ug / 100 + 1);
 
       // Calculate total line = quantity * unit price
       final totalLine = quantity * _unitPrice;
@@ -82,15 +84,12 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
       selectedProduct = product;
       _unitPrice = double.tryParse(product['price']?.toString() ?? '0') ?? 0.0;
 
-      // Get bonus from product data
-      _productBonus = double.tryParse(
-          product['bonus']?.toString() ??
-              product['bonusQuantity']?.toString() ??
-              product['defaultBonus']?.toString() ?? '0'
+      // Get ug from product data
+      _productug = double.tryParse(product['ug']?.toString() ?? product['ugQuantity']?.toString() ?? product['defaultug']?.toString() ?? '0'
       ) ?? 0.0;
-
-      // Auto-set bonus value from product
-      _bonusController.text = _productBonus.toStringAsFixed(2);
+      print('_productug $_productug ${product['ug']}');
+      // Auto-set ug value from product
+      _ugController.text = _productug.toStringAsFixed(2);
     });
     _calculateTotals();
   }
@@ -101,16 +100,17 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
       selectedProduct = null;
       _productController.clear();
       _unitPrice = 0.0;
-      _productBonus = 0.0;
+      _productug = 0.0;
     });
     _quantityController.clear();
-    _bonusController.text = '0';
+    _ugController.text = '0';
     _totalQuantityController.text = '0';
     _totalLineController.clear();
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations(currentLanguage);
     return BlocProvider(
       create: (BuildContext context) => CommandsBloc()..getListProducts()..getListOfCommandLinesbyCommandId(widget.commandId),
       child: BlocConsumer<CommandsBloc, CommandsState>(
@@ -118,6 +118,7 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
           if (state is ListProductsState) {
             setState(() {
               products = state.list;
+              print(products);
             });
           }
 
@@ -132,7 +133,7 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
 
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Command Lines'),
+              title: Text(t.text('command_line')),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.clear_all),
@@ -154,10 +155,7 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
                         suggestions: products.map((product) => product['label'].toString()).toList(),
                         onChanged: (value) => print('Selected: $value'),
                         onSubmitted: (value) {
-                          var selectedProductData = products.firstWhere(
-                                (product) => product['label'] == value,
-                            orElse: () => {},
-                          );
+                          var selectedProductData = products.firstWhere((product) => product['label'] == value, orElse: () => {});
                           if (selectedProductData.isNotEmpty) {
                             _onProductSelected(selectedProductData);
                             print('Submitted - Value: ${selectedProductData['value']}, Label: ${selectedProductData['label']}');
@@ -216,18 +214,18 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
                             },
                           )),
                           const SizedBox(width: 16),
-                          // Bonus Field
+                          // ug Field
                           Expanded(child: TextFormField(
-                            controller: _bonusController,
+                            controller: _ugController,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                              labelText: 'Bonus',
-                              hintText: 'Quantité bonus',
+                              labelText: 'ug',
+                              hintText: 'Quantité ug',
                               border: const OutlineInputBorder(),
                               prefixIcon: const Icon(Icons.card_giftcard),
-                              suffixIcon: _productBonus > 0
+                              suffixIcon: _productug > 0
                                   ? Tooltip(
-                                message: 'Bonus automatique défini pour ce produit',
+                                message: 'ug automatique défini pour ce produit',
                                 child: Icon(
                                   Icons.auto_awesome,
                                   color: Colors.orange.shade700,
@@ -236,9 +234,9 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
                                   : null,
                             ),
                             validator: (value) {
-                              final bonus = double.tryParse(value ?? '0');
-                              if (bonus == null || bonus < 0) {
-                                return 'Bonus invalide';
+                              final ug = double.tryParse(value ?? '0');
+                              if (ug == null || ug < 0) {
+                                return 'ug invalide';
                               }
                               return null;
                             },
@@ -254,7 +252,7 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
                             controller: _totalQuantityController,
                             readOnly: true,
                             decoration: const InputDecoration(
-                              labelText: 'Quantité Totale (Quantité + Bonus)',
+                              labelText: 'Quantité Totale (Quantité + ug)',
                               border: OutlineInputBorder(),
                               prefixIcon: Icon(Icons.shopping_cart),
                               suffixText: 'unités',
@@ -332,8 +330,8 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
     }
 
     final quantity = double.parse(_quantityController.text);
-    final bonus = double.parse(_bonusController.text);
-    final totalQuantity = quantity * (bonus / 100 + 1);
+    final ug = double.parse(_ugController.text);
+    final totalQuantity = quantity * (ug / 100 + 1);
     final totalLine = quantity * _unitPrice;
 
     // Prepare command line data
@@ -342,7 +340,7 @@ class _CommandLineScreenState extends State<CommandLineScreen> {
       'productId': selectedProduct!['value'],
       'productName': selectedProduct!['label'],
       'quantity': quantity,
-      'bonus': bonus,
+      'ug': ug,
       'totalQuantity': totalQuantity,
       'price': _unitPrice,
       'totalLine': totalLine,
